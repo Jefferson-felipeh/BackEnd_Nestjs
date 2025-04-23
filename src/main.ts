@@ -31,7 +31,7 @@ async function bootstrap() {
 
   //Usando o Exceptions Filters de forma global_
   //app.useGlobalFilters(new HttpExceptionFilter());//Preciso instanciar a classe;
-  app.useGlobalInterceptors(new LoggingInterceptor());
+  // app.useGlobalInterceptors(new LoggingInterceptor());
 
   //Configuração do swagger_
   //1º Parte_
