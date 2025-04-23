@@ -40,16 +40,16 @@ import { EmailModule } from './modules/email/email.module';
 //Para utilização dos middlewares na aplicação, eu preciso vir aqui no AppModule e implementar o NestModule_
 export class AppModule implements NestModule{
   //O nestModule tem o método configure() onde irei configurar e especificar os middlewares que serão utilizados na aplicação_
-  // configure(consumer: MiddlewareConsumer) {
-  //     consumer
-  //     .apply(
-  //       //Esses são so dois middlewares utilizados no momento_
-  //       LoggerMiddleware,
-  //       ResponseMiddleware
-  //     )
-  //     //Quando eu não quiser que uma rota específica execute esse middleware,eu simplismente passo o endereço dessa rota usando a função exclude() e especifico a rota_
-  //     //.exclude('auth/login')
-  //     .exclude('(.*)')
-  //     .forRoutes('*')//E aqui é onde eu especifico em quais rotas esses middlewares serão executados;
-  // }
+  configure(consumer: MiddlewareConsumer) {
+      consumer
+      .apply(
+        //Esses são so dois middlewares utilizados no momento_
+        LoggerMiddleware,
+        ResponseMiddleware
+      )
+      //Quando eu não quiser que uma rota específica execute esse middleware,eu simplismente passo o endereço dessa rota usando a função exclude() e especifico a rota_
+      //.exclude('auth/login')
+      .exclude('(.*)')
+      .forRoutes('*')//E aqui é onde eu especifico em quais rotas esses middlewares serão executados;
+  }
 }
