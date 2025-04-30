@@ -1,13 +1,15 @@
 import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { RepositoryUser } from '../users/users.repository';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class EmailService {
  
   constructor(
     private sendEmailService:MailerService,
-    private userRepo:RepositoryUser
+    private userRepo:RepositoryUser,
+    private jwtService:JwtService
   ){}
   
   async emailToEnd() {
@@ -51,18 +53,25 @@ export class EmailService {
     }
   }
 
-
   async forgotPassword(email:string):Promise<string>{
     try{
 
       if(!email) throw new HttpException('Email não fornecido!!',401);
   
       const user = await this.userRepo.searchUserToEmail(email);
+      
       if(!user) throw new HttpException('Usuário não encontrado!',400);
+
+      const jwtToken = await this.jwtService.sign(
+        {sub: user.id},
+        {secret: 'jefferons',expiresIn: '5m'}
+      );
+
+      console.log(jwtToken);
   
-      const sendEmail = await this.sendEmailForgotPassword(email);
+      // const sendEmail = await this.sendEmailForgotPassword(email);
   
-      if(!sendEmail) throw new HttpException('Erro ao enviar email',400);
+      // if(!sendEmail) throw new HttpException('Erro ao enviar email',400);
   
       return 'email para redefinição de senha enviado!';
     }catch(error){

@@ -110,11 +110,11 @@ export class RepositoryUser{
     }
 
     //Buscando um usuário apartir do seu email_
-    async searchUserToEmail(email:string):Promise<boolean>{
+    async searchUserToEmail(email:string):Promise<UserDto>{
         try{
             const verify = await this.repository.findOne({where: {email: email}});
             if(!verify) throw new HttpException('Usuário Inválido!',400);
-            return true;
+            return verify;
         }catch(error){
             throw new HttpException(error,400);
         }

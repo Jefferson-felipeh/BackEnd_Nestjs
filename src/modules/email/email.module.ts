@@ -9,6 +9,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { RepositoryUser } from "../users/users.repository";
 import { RepositoryAddress } from "../address/address.repository";
 import { Role } from "../role/entities/Role.entity";
+import { JwtService } from "@nestjs/jwt";
 
 @Module({
     imports: [
@@ -38,7 +39,8 @@ import { Role } from "../role/entities/Role.entity";
     controllers:[EmailController],
     providers: [
         EmailService,
-        RepositoryUser
+        RepositoryUser,
+        JwtService
     ]
 })
 
