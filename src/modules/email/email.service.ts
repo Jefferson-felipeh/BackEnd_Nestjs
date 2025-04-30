@@ -37,15 +37,18 @@ export class EmailService {
   }
 
   async sendEmailForgotPassword(email:string):Promise<object>{
-    const sendOptions = {
-      to: email,
-      from: 'jeffersonthm1@gmail.com',
-      subject: 'Forgot Password',
-      html:  `<a href="/">Mudar senha</a>`,
-      text: 'Alterar senha clicando no link'
+    try{
+      const sendOptions = {
+        to: email,
+        from: 'jeffersonthm1@gmail.com',
+        subject: 'Forgot Password',
+        html:  `<a href="/">Mudar senha</a>`,
+        text: 'Alterar senha clicando no link'
+      }
+      return this.sendEmailService.sendMail(sendOptions);
+    }catch(error){
+      throw new HttpException(error,400);
     }
-
-    return this.sendEmailService.sendMail(sendOptions);
   }
 
 
