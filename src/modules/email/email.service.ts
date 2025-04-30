@@ -50,15 +50,20 @@ export class EmailService {
 
 
   async forgotPassword(email:string):Promise<string>{
-    if(!email) throw new HttpException('Email não fornecido!!',401);
+    try{
 
-    const user = await this.userRepo.searchUserToEmail(email);
-    if(!user) throw new HttpException('Usuário não encontrado!',400);
-
-    const sendEmail = await this.sendEmailForgotPassword(email);
-
-    if(!sendEmail) throw new HttpException('Erro ao enviar email',400);
-
-    return 'email para redefinição de senha enviado!';
+      if(!email) throw new HttpException('Email não fornecido!!',401);
+  
+      const user = await this.userRepo.searchUserToEmail(email);
+      if(!user) throw new HttpException('Usuário não encontrado!',400);
+  
+      const sendEmail = await this.sendEmailForgotPassword(email);
+  
+      if(!sendEmail) throw new HttpException('Erro ao enviar email',400);
+  
+      return 'email para redefinição de senha enviado!';
+    }catch(error){
+      throw new HttpException(error,400);
+    }
   }
 }
