@@ -4,8 +4,6 @@ import { User } from "./entities/User";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Role } from "../role/entities/Role.entity";
 import { UserDto } from "./dtos/Userdto";
-import { Address } from "../address/entities/Address.entity";
-import { RepositoryAddress } from "../address/address.repository";
 
 @Injectable()
 export class RepositoryUser{
@@ -14,7 +12,6 @@ export class RepositoryUser{
         private repository: Repository<User>,
         @InjectRepository(Role)
         private roleRepository:Repository<Role>,
-        private addressRepository:RepositoryAddress
     ){}
 
     //Criando novo usuário_
@@ -110,5 +107,14 @@ export class RepositoryUser{
         }catch(error){
             throw new HttpException(`${error}`,400);
         }
+    }
+
+    //Buscando um usuário apartir do seu email_
+    async searchUserToEmail(email:string):Promise<boolean>{
+        const verify = await this.repository.findOne({where: {email: email}});
+
+        if(!verify) throw new HttpException('Usuário Inválido!',400);
+
+        return true;
     }
 }

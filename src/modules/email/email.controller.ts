@@ -15,4 +15,9 @@ export class EmailController{
     async sendEmail(@Body() emailBody:emailData):Promise<void>{
         return this.emailService.sendEmailDynamic(emailBody.to,emailBody.name);
     }
+
+    @Post('forgot-password')
+    async forgotPassword(@Body() body: {email:string}):Promise<string>{
+        return this.emailService.forgotPassword(body.email);
+    }
 }

@@ -4,9 +4,15 @@ import { EmailService } from "./email.service";
 import { ConfigModule, ConfigType } from "@nestjs/config";
 import emailConfig from "src/common/config/email.config";
 import { MailerModule } from "@nestjs-modules/mailer";
+import { User } from "../users/entities/User";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { RepositoryUser } from "../users/users.repository";
+import { RepositoryAddress } from "../address/address.repository";
+import { Role } from "../role/entities/Role.entity";
 
 @Module({
     imports: [
+        TypeOrmModule.forFeature([User,Role]),
         ConfigModule.forRoot({
             isGlobal: true,
             load: [emailConfig],
@@ -30,7 +36,10 @@ import { MailerModule } from "@nestjs-modules/mailer";
         }),
     ],
     controllers:[EmailController],
-    providers: [EmailService]
+    providers: [
+        EmailService,
+        RepositoryUser
+    ]
 })
 
 export class EmailModule{}
