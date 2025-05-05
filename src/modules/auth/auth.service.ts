@@ -95,4 +95,10 @@ export class AuthService {
             reflashToken
         }
     }
+
+    //Validando o token_
+    validToken(token){
+        if(!token) throw new HttpException('Erro ao obter token!',401);
+        return true;
+    }
 }

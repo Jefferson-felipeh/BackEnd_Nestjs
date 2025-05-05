@@ -38,14 +38,15 @@ export class EmailService {
     return this.sendEmailService.sendMail(sendOptions);
   }
 
-  async sendEmailForgotPassword(email:string):Promise<object>{
+  async sendEmailForgotPassword(email:string,token:string):Promise<object>{
     try{
+      //Envia um email para o usuário, passando a URL com o token_
       const sendOptions = {
         to: email,
         from: 'jeffersonthm1@gmail.com',
         subject: 'Forgot Password',
-        html:  `<a href="/">Mudar senha</a>`,
-        text: 'Alterar senha clicando no link'
+        html:  `<a href="http://localhost:4200/reset-password?token=${token}">Reset Password clicked this link</a>`,
+        text: `Alterar senha clicando no link`
       }
       return this.sendEmailService.sendMail(sendOptions);
     }catch(error){
@@ -55,24 +56,30 @@ export class EmailService {
 
   async forgotPassword(email:string):Promise<string>{
     try{
-
+      //O service ira validar se o email foi mandado pelo controller_
       if(!email) throw new HttpException('Email não fornecido!!',401);
   
+      //Irá buscar por um usuário no banco que tenha esse email_
       const user = await this.userRepo.searchUserToEmail(email);
       
+      //Se não houver um usuário com esse email, ele çança uma exceção_
       if(!user) throw new HttpException('Usuário não encontrado!',400);
+      console.log(user.id);
 
-      const jwtToken = await this.jwtService.sign(
-        {sub: user.id},
-        {secret: 'jefferons',expiresIn: '5m'}
+      //Se o usuário for valido, ele gera um token JWT apartir das informações do usuário dono do email_
+      const jwtToken = this.jwtService.sign(
+        {sub: user.id},//Especificando e criando o token com as informações do usuário obtidas pelo email;
+        {secret: 'jeffersons',expiresIn: '1h'}//Com um tempo de expiração;
       );
-
-      console.log(jwtToken);
   
-      // const sendEmail = await this.sendEmailForgotPassword(email);
+      //Após gerar o token, ele envia para o método responsável por enviar o email para este usuário com as informações contendo o email e o token_
+      //O token será passado na URL para redefinir a senha_
+      const sendEmail = await this.sendEmailForgotPassword(email,jwtToken);
   
-      // if(!sendEmail) throw new HttpException('Erro ao enviar email',400);
+      //Verifica se o email foi enviado_
+      if(!sendEmail) throw new HttpException('Erro ao enviar email',400);
   
+      //Por fim, ele retornar informando que o email foi enviado_
       return 'email para redefinição de senha enviado!';
     }catch(error){
       throw new HttpException(error,400);

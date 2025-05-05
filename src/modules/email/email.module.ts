@@ -9,7 +9,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { RepositoryUser } from "../users/users.repository";
 import { RepositoryAddress } from "../address/address.repository";
 import { Role } from "../role/entities/Role.entity";
-import { JwtService } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 
 @Module({
     imports: [
@@ -35,6 +35,7 @@ import { JwtService } from "@nestjs/jwt";
                 },
             }),
         }),
+        JwtModule
     ],
     controllers:[EmailController],
     providers: [

@@ -29,6 +29,11 @@ async function bootstrap() {
     //logger: new MyLogger()
   });
 
+  app.enableCors({
+    origin: 'http://localhost:4200', // libera apenas o Angular local
+    credentials: true, // se precisar enviar cookies ou headers de autenticação
+  });
+
   //Usando o Exceptions Filters de forma global_
   //app.useGlobalFilters(new HttpExceptionFilter());//Preciso instanciar a classe;
   // app.useGlobalInterceptors(new LoggingInterceptor());

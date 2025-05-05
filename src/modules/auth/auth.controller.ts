@@ -1,14 +1,13 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Param, ParseUUIDPipe, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { AuthLocalStrategy } from './strategys/auth-local.strategy';
 import { AuthGuardsService } from './guards/Auth.guard';
 
 @Controller('auth')
 @ApiTags('Auth')
 export class AuthController {
 
-    constructor(){}
+    constructor(private authService:AuthService){}
 
     @UseGuards(AuthGuardsService)
     @ApiOperation({
@@ -20,6 +19,11 @@ export class AuthController {
     @Post('login')
     async signIn(@Request() req:any):Promise<object>{
         return req.user;
+    }
+
+    @Post('jwt/:token')
+    async validToken(@Param('token') token:ParseUUIDPipe){
+        return this.authService.validToken(token);
     }
 
     @Post('logout')

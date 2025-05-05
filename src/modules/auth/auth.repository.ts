@@ -19,4 +19,5 @@ export class AuthRepository{
             if(!user) throw new HttpException('Email não encontrado na base de dados!',401);
             return user;
     }
+    
 }

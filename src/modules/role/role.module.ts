@@ -9,10 +9,12 @@ import { RepositoryUser } from '../users/users.repository';
 import { UsersService } from '../users/users.service';
 import { Address } from '../address/entities/Address.entity';
 import { RepositoryAddress } from '../address/address.repository';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Role,User,Address])
+        TypeOrmModule.forFeature([Role,User,Address]),
+        JwtModule
     ],
     controllers: [RoleController],
     providers: [

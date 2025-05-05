@@ -17,7 +17,10 @@ export class EmailController{
     }
 
     @Post('forgot-password')
+    //O usuário clica no link forgot-password informando que ele deseja recuperar ou resetar sua senha_
+    //Ele irá fornecer um email válido que esteja cadastrado no banco de dados_
     async forgotPassword(@Body() body: {email:string}):Promise<string>{
+        //Obtem o email e manda para o service_
         return this.emailService.forgotPassword(body.email);
     }
 }

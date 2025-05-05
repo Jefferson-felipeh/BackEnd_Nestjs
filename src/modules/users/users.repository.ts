@@ -119,4 +119,31 @@ export class RepositoryUser{
             throw new HttpException(error,400);
         }
     }
+
+    async findById(id:string):Promise<any>{
+        if(!id) throw new HttpException('Identificador inválido!',400);
+
+        const user = this.repository.findOneBy({id});
+        if(!user) throw new HttpException('Usuário não encontrado!',401);
+
+        return user;
+    }
+
+    //Método responsável por atualizar a senha do usuário por uma nova senha que ele atualizou_
+    async updatedPassword(id:string,hasedPassword:string):Promise<User>{
+        //Busca pelo usuário apartir do id fornecido pelo Token_
+        const user = await this.repository.findOneBy({id});
+        if(!user) throw new HttpException('Usuário não encontrado!',400);
+
+        //Atualiza a senha do usuário com a nova senha hasheada_
+        await this.repository.update(id,{password: hasedPassword});
+
+        //Buscar pelas informações do usuário com a novasenha atualizada_
+        const userAtualized = await this.repository.findOneBy({id});
+
+        if(!userAtualized) throw new HttpException('Usuário não encontrado!',400);
+
+        //Retorna o usuário com a sua nova senha atualizada_
+        return userAtualized;
+    }
 }

@@ -50,4 +50,9 @@ export class UsersController {
     async delete(@Param('id', ParseUUIDPipe) id:string){
         return this.service.delete(id);
     }
+
+    @Post('reset-password')
+    async resetPasswordUser(@Body() body: {password:string,token:string}):Promise<any>{
+        return this.service.resetPassword(body.password,body.token);
+    }
 }
