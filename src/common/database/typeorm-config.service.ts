@@ -21,7 +21,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory{
 
             entities:[__dirname + '/../**/*.entity{.ts,.js}'],
             //migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-            synchronize: true,
+            synchronize: false,
             cli:{
                 entitiesDir: 'src',
                 migrationsDir: 'src/modules/subscribe',
