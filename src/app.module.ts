@@ -29,7 +29,9 @@ import { EmailModule } from './modules/email/email.module';
     AddressModule,
     AuthModule,
     RoleModule,
-    EmailModule
+    EmailModule.register({
+      host:'gmail',
+    }),
   ],
   controllers: [AppController],
   providers: [

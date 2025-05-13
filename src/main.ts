@@ -3,6 +3,8 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from './common/filters/all-exceptions.filter';
 import { LoggingInterceptor } from './common/intercepts/logging.interceptor';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 
 //Eu posso criar um log personalizado e instancia-lo onde irei utiliza-lo_
@@ -13,7 +15,7 @@ import { LoggingInterceptor } from './common/intercepts/logging.interceptor';
 // }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{
+  const app = await NestFactory.create<NestExpressApplication>(AppModule,{
     //O logger vai permitir personalizar a forma como os logs são exibidos no rodar da aplicação_
     //Eu posso usar diretamente no main.ts dessa forma, a diferentça é que não será possível personalizar e injeta-los nas demais partes da aplicação_
     // logger: new ConsoleLogger({
@@ -28,6 +30,8 @@ async function bootstrap() {
     //logger: new loggerCustomer(),
     //logger: new MyLogger()
   });
+
+  app.useStaticAssets(join(__dirname, '..', 'public'));
 
   app.enableCors({
     origin: 'http://localhost:4200', // libera apenas o Angular local

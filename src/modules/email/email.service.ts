@@ -14,12 +14,12 @@ export class EmailService {
   
   async emailToEnd() {
     const mailOptions = {
-        to: 'alvarom@petribusa.com.br',//Para quem será enviado o email;
+        to: 'jeffersons@petribusa.com.br',//Para quem será enviado o email;
         from: 'jeffersonthm1@gmail.com',//Quem irá enviar o email;
         template: '',//Template que o email terá;
         subject: 'Testing Nest MailerModule',
-        text: 'Este email foi enviado como teste!',
-        html: '<b style="color: red; font-weight:bold;">Bom diah, lindo!!</b>'
+        text: 'Este email foi enviado como teste para prática do estudo do dynami module!',
+        html: '<b style="color: red; font-weight:bold;">Estudando dynamic module no nestjs!!</b>'
     };
 
     return await this.sendEmailService.sendMail(mailOptions);
